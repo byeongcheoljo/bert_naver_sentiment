@@ -66,3 +66,12 @@ print(validation_inputs[0])
 print(validation_labels[0])
 print(validation_masks[0])
 
+##데이터셋 만들기
+batch_size = 32
+train_data = TensorDataset(train_inputs, train_masks, train_labels)
+train_sampler = RandomSampler(train_data)
+train_dataloader = DataLoader(train_data, sampler = train_sampler, batch_size = batch_size)
+validation_data = TensorDataset(validation_inputs, validation_masks, validation_labels)
+validation_sampler = SequentialSampler(validation_data)
+validation_dataloader = DataLoader(validation_data, sampler = validation_sampler, batch_size = batch_size)
+
