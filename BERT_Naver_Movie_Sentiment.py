@@ -48,3 +48,21 @@ train_masks, validation_masks, _, _ = train_test_split(attention_masks,
                                                        input_ids,
                                                        random_state=2018,
                                                        test_size=0.1)
+
+
+# 데이터를 파이토치의 텐서로 변환
+train_inputs = torch.tensor(train_inputs)
+train_labels = torch.tensor(train_labels)
+train_masks = torch.tensor(train_masks)
+validation_inputs = torch.tensor(validation_inputs)
+validation_labels = torch.tensor(validation_labels)
+validation_masks = torch.tensor(validation_masks)
+
+#파이토치의 텐서로 변환된 데이터 sample 출력
+print(train_inputs[0])
+print(train_labels[0])
+print(train_masks[0])
+print(validation_inputs[0])
+print(validation_labels[0])
+print(validation_masks[0])
+
