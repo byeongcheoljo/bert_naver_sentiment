@@ -75,3 +75,36 @@ validation_data = TensorDataset(validation_inputs, validation_masks, validation_
 validation_sampler = SequentialSampler(validation_data)
 validation_dataloader = DataLoader(validation_data, sampler = validation_sampler, batch_size = batch_size)
 
+
+
+#####test data 전처리 (Train Data와 동일하게 전처리 함)
+print(test[0:5])
+print(test.shape)
+
+sentences = test['document']
+sentences = ["[CLS]" + str(sentence) + "[SEP]" for sentence in sentences]
+print(sentences[0:5])
+
+labels = test['label'].values
+print(labels[0:5])
+
+
+tokenizer = BertTokenizer.from_pretrained("bert-base-multilingual-cased", do_lower_case = False)
+tokenized_texts = [tokenizer.tokenize(sentence) for sentence in sentences]
+
+print(sentences[0])
+print(tokenized_texts[0])
+
+max_sequence_length = 128
+input_ids = [tokenizer.convert_tokens_to_ids(x) for x in tokenized_texts]
+input_ids = pad_sequences(input_ids, maxlen=max_sequence_length, dtype="long", truncating="post", padding="post")
+print(input_ids[0])
+
+attention_masks = []
+for seq in input_ids:
+    seq_mask = [float(i > 0)  for i in seq]
+    attention_masks.append(seq_mask)
+
+test_inputs = torch.tensor(input_ids)
+test_labels = torch.tensor(labels)
+test_masks = torch.tensor(attention_masks)
