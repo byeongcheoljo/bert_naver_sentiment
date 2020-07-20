@@ -108,3 +108,35 @@ for seq in input_ids:
 test_inputs = torch.tensor(input_ids)
 test_labels = torch.tensor(labels)
 test_masks = torch.tensor(attention_masks)
+
+batch_size = 32
+
+# 파이토치의 DataLoader로 입력, 마스크, 라벨을 묶어 데이터 설정
+test_data = TensorDataset(test_inputs, test_masks, test_labels)
+test_sampler = RandomSampler(test_data)
+test_dataloader = DataLoader(test_data, sampler=test_sampler, batch_size=batch_size)
+
+device_name = tf.test.gpu_device_name()
+
+# GPU 디바이스 이름 검사
+if device_name == '/device:GPU:0':
+    print('Found GPU at: {}'.format(device_name))
+else:
+    raise SystemError('GPU device not found')
+
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print('There are %d GPU(s) available.' % torch.cuda.device_count())
+    print('We will use the GPU:', torch.cuda.get_device_name(0))
+else:
+    device = torch.device("cpu")
+    print('No GPU available, using the CPU instead.')
+
+model = BertForSequenceClassification.from_pretrained("bert-base-multilingual-cased", num_labels = 2) ## 예측할 label 긍정, 부정 = 2개
+model.cuda()
+
+optimizer = AdamW(model.parameters(),
+                  lr = 2e-5, # 학습률
+                  eps = 1e-8 # 0으로 나누는 것을 방지하기 위한 epsilon 값
+                )
+
