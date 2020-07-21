@@ -1,4 +1,5 @@
 ## Use-cases of Hugging Face's BERT
+This is a classification model for Sentiment analysis using Naver movie review data.
 use-cases of BERT using pytorch-transformers.
 
 ### DataSet
