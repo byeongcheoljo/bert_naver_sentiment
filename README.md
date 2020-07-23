@@ -20,3 +20,6 @@ https://github.com/huggingface/pytorch-transformers
 <img width=200 src="https://user-images.githubusercontent.com/20554016/88000708-505bf680-cb39-11ea-879f-db288674d0f8.JPG"></img>
 
 </div>
+
+### Run Code
+python BERT_Naver_Movie_Sentiment.py
